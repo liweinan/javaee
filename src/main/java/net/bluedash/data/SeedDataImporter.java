@@ -1,5 +1,9 @@
 package net.bluedash.data;
 
+import net.bluedash.model.Member;
+import org.jboss.logging.Logger;
+import org.jboss.seam.solder.logging.Category;
+
 import javax.annotation.PostConstruct;
 import javax.ejb.Singleton;
 import javax.ejb.Startup;
@@ -8,22 +12,17 @@ import javax.persistence.EntityManager;
 import javax.persistence.TransactionRequiredException;
 import javax.transaction.UserTransaction;
 
-import org.jboss.logging.Logger;
-import org.jboss.seam.solder.logging.Category;
-
-import net.bluedash.model.Member;
-
 /**
  * Import seed data into the database on application startup.
- * 
+ * <p/>
  * <p>
  * Observes the context initialized event and loads seed data into the database using JPA.
  * </p>
- * 
+ * <p/>
  * <p>
  * As an alternative, you can perform the data loading by observing the context initialized event of a ServletContextListener
  * </p>
- * 
+ *
  * @author Dan Allen
  */
 @Startup
@@ -59,6 +58,21 @@ public class SeedDataImporter {
             log.info("Successfully imported seed data.");
         } catch (Exception e) {
             log.warn("Seed data import failed.", e);
+        }
+
+        // One To One with foreign key constrains.
+        {
+            net.bluedash.model.sandbox.onetoone.Address address
+                    = new net.bluedash.model.sandbox.onetoone.Address();
+            net.bluedash.model.sandbox.onetoone.User user
+                    = new net.bluedash.model.sandbox.onetoone.User();
+            user.setContactAddress(address);
+            // http://stackoverflow.com/questions/11104897/hibernate-attempted-to-assign-id-from-null-one-to-one-property-employee
+            // You told Hibernate to generate the ONETOONE_ADDRESS ID from the ONETOONE_USER ID, so you should initialize this property.
+            address.setUser(user);
+            em.persist(user);
+            log.info("ONETOONE_USER ID: " + user.getId());
+            log.info("ONETOONE_ADDRESS ID: " + address.getId());
         }
     }
 }
