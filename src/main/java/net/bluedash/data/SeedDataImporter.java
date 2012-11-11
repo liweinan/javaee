@@ -1,6 +1,9 @@
 package net.bluedash.data;
 
 import net.bluedash.model.Member;
+import net.bluedash.model.sandbox.collection.bag.Item;
+import net.bluedash.model.sandbox.collection.embed.Color;
+import net.bluedash.model.sandbox.collection.embed.Pencil;
 import org.jboss.logging.Logger;
 import org.jboss.seam.solder.logging.Category;
 
@@ -11,6 +14,10 @@ import javax.inject.Inject;
 import javax.persistence.EntityManager;
 import javax.persistence.TransactionRequiredException;
 import javax.transaction.UserTransaction;
+import java.util.ArrayList;
+import java.util.Collection;
+import java.util.HashSet;
+import java.util.Set;
 
 /**
  * Import seed data into the database on application startup.
@@ -74,5 +81,48 @@ public class SeedDataImporter {
             log.info("ONETOONE_USER ID: " + user.getId());
             log.info("ONETOONE_ADDRESS ID: " + address.getId());
         }
+
+        // collection.bag
+        {
+            Item item = new Item();
+            Collection<String> links = new ArrayList<String>();
+            links.add("linka");
+            links.add("linkb");
+            links.add("linkc");
+            links.add("linkc");
+
+            item.setLinks(links);
+
+            em.persist(item);
+        }
+
+        // collection.embed
+        {
+            Pencil pencil = new Pencil();
+
+            Color purple = new Color();
+            purple.setName("Purple");
+            purple.setAbbreviation("PR");
+
+            Color red = new Color();
+            red.setName("Red");
+            red.setAbbreviation("RD");
+
+            Color red2 = new Color();
+            red2.setName("Red");
+            red2.setAbbreviation("RD");
+
+            Set<Color> colors = new HashSet<Color>();
+            colors.add(purple);
+            colors.add(red);
+            // this will create problem:
+            // because (pencil_id, name, abbreviation) is used as composite id.
+//            colors.add(red2);
+
+            pencil.setColors(colors);
+
+            em.persist(pencil);
+        }
+
     }
 }
