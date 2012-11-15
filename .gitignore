@@ -1,2 +1,5 @@
 .idea
 target
+.factorypath
+.settings/
+*.iml
