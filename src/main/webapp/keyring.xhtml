@@ -1,0 +1,26 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h1>KEY-RING</h1>
+
+        <p>This page will test the effect of 'orphanRemoval = true' option in JPA annotation.</p>
+
+        <h:form>
+            <p>
+                <h:commandButton action="#{keyRingPlayer.tryDelete}" value="Make an orphan"/>
+            </p>
+        </h:form>
+
+        <h:form>
+            <h:dataTable value="#{keyData.keys}" var="key">
+                <h:column>
+                    <h3>The left key is: #{key.color}</h3>
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>

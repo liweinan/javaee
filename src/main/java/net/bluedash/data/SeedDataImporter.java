@@ -4,6 +4,8 @@ import net.bluedash.model.Member;
 import net.bluedash.model.sandbox.collection.bag.Item;
 import net.bluedash.model.sandbox.collection.embed.Color;
 import net.bluedash.model.sandbox.collection.embed.Pencil;
+import net.bluedash.model.sandbox.collection.orphan.Key;
+import net.bluedash.model.sandbox.collection.orphan.KeyRing;
 import org.jboss.logging.Logger;
 import org.jboss.seam.solder.logging.Category;
 
@@ -115,14 +117,28 @@ public class SeedDataImporter {
             Set<Color> colors = new HashSet<Color>();
             colors.add(purple);
             colors.add(red);
-            // this will create problem:
-            // because (pencil_id, name, abbreviation) is used as composite id.
-//            colors.add(red2);
 
+            // colors.add(red2); will cause problem, because
+            // (pencil_id, name, abbreviation) is used as composite id.
             pencil.setColors(colors);
 
             em.persist(pencil);
         }
 
+        // Generate Orphan enabled entities
+        {
+            KeyRing ring = new KeyRing();
+
+            Key key1 = new Key();
+            key1.setColor("Red");
+            Key key2 = new Key();
+            key2.setColor("Blue");
+
+            ring.setName("default");
+            ring.addKey(key1);
+            ring.addKey(key2);
+
+            em.persist(ring);
+        }
     }
 }

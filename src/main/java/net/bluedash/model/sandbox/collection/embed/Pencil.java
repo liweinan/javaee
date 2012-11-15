@@ -23,7 +23,7 @@ public class Pencil {
     @ElementCollection
     @JoinTable(name = "collection_embed_color", joinColumns = @JoinColumn(name = "pencil_id"))
     @Column(name = "color_val", nullable = false)
-    // set do not support @CollectionId
+    // keys do not support @CollectionId
     // http://lists.jboss.org/pipermail/hibernate-commits/2008-March/003270.html
     //    @CollectionId(columns = @Column(name = "color_id"), type = @Type(type = "string"), generator = "uuid")
     //    @GenericGenerator(name = "uuid", strategy = "uuid2")

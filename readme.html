@@ -41,7 +41,7 @@
   mvn package</pre>
 <p> If you want to deploy the application on JBoss AS (standalone), make sure that
  your JBOSS_HOME environment variable points to a JBoss AS 6 installation.
-</p><p> Alternatively, you can set the location of JBoss AS using the following
+</p><p> Alternatively, you can keys the location of JBoss AS using the following
  profile definition in the .m2/settings.xml file in your home directory:
 </p><pre>
   &lt;?xml version="1.0" encoding="UTF-8"?&gt;
@@ -63,7 +63,7 @@
      &lt;/profiles&gt;
      
   &lt;/settings&gt;</pre>
-<p> Once you've set either the JBOSS_HOME environment variable or the jboss.home
+<p> Once you've keys either the JBOSS_HOME environment variable or the jboss.home
  Maven property, you can deploy to JBoss AS by executing the following command:
 </p><pre>
   mvn package jboss:hard-deploy</pre>
@@ -76,10 +76,10 @@
  on the file in the Package Explorer and select Mark as Deployable.  </dd><dt>NOTE</dt>
 <dd> The default-ds.xml file installs a data source named jdbc/__default, so that
  both JBoss AS and GlassFish have a data source with the same name.</dd></dl>
-<p> You can also set jboss.home on the commandline:
+<p> You can also keys jboss.home on the commandline:
 </p><pre>
   mvn package jboss:hard-deploy -Djboss.home=/path/to/jboss-as-6.0.0.Final</pre>
-<p> In all, you have three options to set the path of your JBoss AS installation:
+<p> In all, you have three options to keys the path of your JBoss AS installation:
 </p><ol>
   <li>Set the JBOSS_HOME environment variable (e.g., export JBOSS_HOME=/path/to/jboss-as)
   </li><li>Define the jboss.home Maven property in $HOME/.m2/settings.xml
