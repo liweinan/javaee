@@ -1,0 +1,52 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h1>Welcome to Java EE 6!</h1>
+
+        <p>You have successfully deployed a Java EE 6 web application.</p>
+
+        <h:form>
+            <h2>PLAY-WITH-SCOPE</h2>
+
+
+            <p>Use the cherry in RequestScopedBean, but submit it to AnotherRequestScopedBean</p>
+            <table>
+                <tr>
+                    <td align="right">My cherry's Flavor:</td>
+                    <td><h:inputText value="#{myCherryController.myCherry}"/></td>
+                </tr>
+                <tr>
+                    <td align="right">
+                        Another cherry's flavor:
+                    </td>
+                    <td>
+                        <h:inputText value="#{anotherCherryController.anotherCherry}"/>
+                    </td>
+                </tr>
+                <tr>
+                    <td colspan="right">
+                        <h:commandButton action="#{myCherryController.whereIsMyCherry}" value="Taste!"/>
+                    </td>
+                </tr>
+            </table>
+
+            <h:outputText rendered="#{not empty myCherryController.myCherry}"
+                          value="My cherry tastes #{myCherryController.myCherry}"/>
+            <h:outputText
+                    rendered="#{not empty myCherryController.myCherry and not empty myCherryController.anotherCherry}"
+                    value=" and another "/>
+            <h:outputText rendered="#{empty myCherryController.myCherry and not empty myCherryController.anotherCherry}"
+                          value="Another "/>
+            <h:outputText rendered="#{not empty myCherryController.anotherCherry}"
+                          value="cherry tastes #{myCherryController.anotherCherry}"/>
+            <h:outputText
+                    rendered="#{not empty myCherryController.myCherry or not empty myCherryController.anotherCherry}"
+                    value="."/>
+
+        </h:form>
+    </ui:define>
+</ui:composition>
