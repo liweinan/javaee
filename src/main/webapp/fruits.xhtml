@@ -1,0 +1,31 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<ui:composition xmlns="http://www.w3.org/1999/xhtml"
+                xmlns:ui="http://java.sun.com/jsf/facelets"
+                xmlns:f="http://java.sun.com/jsf/core"
+                xmlns:h="http://java.sun.com/jsf/html"
+                template="/WEB-INF/templates/default.xhtml">
+    <ui:define name="content">
+        <h:form>
+            <h2>FRUIT-REPOSITORY</h2>
+
+            <table>
+                <tr>
+                    <td align="right">Add a new fruit:</td>
+                    <td><h:inputText value="#{fruitRepo.fruit}"/></td>
+                </tr>
+                <tr>
+                    <td colspan="2" align="center">
+                        <h:commandButton action="#{fruitRepo.add}" value="Add It!"/>
+                        <h:commandButton action="#{fruitRepo.clear}" value="Clear Repository"/>
+                    </td>
+                </tr>
+            </table>
+
+            <h:dataTable value="#{fruitRepo.fruits}" var="fruit">
+                <h:column>
+                    #{fruit}
+                </h:column>
+            </h:dataTable>
+        </h:form>
+    </ui:define>
+</ui:composition>
