@@ -1,4 +1,4 @@
-package net.bluedash.controller.conversation;
+package net.bluedash.controller;
 
 import javax.enterprise.context.Conversation;
 import javax.enterprise.context.ConversationScoped;
@@ -15,24 +15,9 @@ import java.util.List;
  */
 @Named("fruitRepo")
 @ConversationScoped
-public class FruitRepository implements Serializable {
-
-    private List<String> fruits = new ArrayList<String>();
+public class FruitController implements Serializable {
 
     private String fruit;
-
-    @Inject
-    private Conversation conversation;
-
-    boolean conversationStarted = false;
-
-    public List<String> getFruits() {
-        return fruits;
-    }
-
-    public void setFruits(List<String> fruits) {
-        this.fruits = fruits;
-    }
 
     public String getFruit() {
         return fruit;
@@ -42,18 +27,35 @@ public class FruitRepository implements Serializable {
         this.fruit = fruit;
     }
 
+    private List<String> fruits = new ArrayList<String>();
+
+    public List<String> getFruits() {
+        return fruits;
+    }
+
+    public void setFruits(List<String> fruits) {
+        this.fruits = fruits;
+    }
+
+    @Inject
+    private Conversation conversation;
+
+    boolean conversationStarted = false;
+
     public synchronized void add() {
-        if(!conversationStarted) {
+        if (!conversationStarted) {
             conversation.begin();
             conversationStarted = true;
         }
+
         fruits.add(fruit);
     }
 
-    public synchronized void clear() {
-        conversation.end();
-        conversationStarted = false;
-        fruits = new ArrayList<String>();
+    public void clear() {
+        synchronized (this) {
+            conversationStarted = false;
+            conversation.end();
+            fruits = new ArrayList<String>();
+        }
     }
-
 }
