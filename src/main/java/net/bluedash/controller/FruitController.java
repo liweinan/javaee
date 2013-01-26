@@ -19,6 +19,16 @@ public class FruitController implements Serializable {
 
     private String fruit;
 
+    private String cid;
+
+    public String getCid() {
+        return cid;
+    }
+
+    public void setCid(String cid) {
+        this.cid = cid;
+    }
+
     public String getFruit() {
         return fruit;
     }
@@ -43,19 +53,27 @@ public class FruitController implements Serializable {
     boolean conversationStarted = false;
 
     public synchronized void add() {
+        System.out.println("CONVERSATION-STARTED: " + conversationStarted);
         if (!conversationStarted) {
             conversation.begin();
             conversationStarted = true;
+            cid = conversation.getId();
+            System.out.println("CONVERSATION-ID: " + cid);
         }
 
         fruits.add(fruit);
+        fruit = null;
     }
 
     public void clear() {
         synchronized (this) {
-            conversationStarted = false;
-            conversation.end();
-            fruits = new ArrayList<String>();
+            if (conversationStarted) {
+                conversationStarted = false;
+                conversation.end();
+                cid = null;
+                fruits = new ArrayList<String>();
+                System.out.println("CONVERSATION-END");
+            }
         }
     }
 }
